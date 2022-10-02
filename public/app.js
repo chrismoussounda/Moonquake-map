@@ -1,5 +1,5 @@
 import * as THREE from '/build/three.module.js';
-import MouseMeshInteraction from '/three-mmi/three_mmi.js';
+import MouseMeshInteraction from '/three-mmi.js';
 import { OrbitControls } from '/jsm/controls/OrbitControls.js';
 import Stats from '/jsm/libs/stats.module.js';
 import { BufferGeometryUtils } from '/jsm/utils/BufferGeometryUtils.js';
