@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const process = require('process');
 // const fs = require('fs');
 // app.use(express.json);
 
@@ -45,5 +46,10 @@ app.use(
 //     data05,
 //   });
 // });
+console.log(process);
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`https://localhost:${port}`));
+
+process.addListener('unhandledRejection', (err) => {
+  console.log(e);
+});
