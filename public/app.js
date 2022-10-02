@@ -1,4 +1,5 @@
 import * as THREE from '/build/three.module.js';
+import MouseMeshInteraction from '/three-mmi/three_mmi.js';
 import { OrbitControls } from '/jsm/controls/OrbitControls.js';
 import Stats from '/jsm/libs/stats.module.js';
 import { BufferGeometryUtils } from '/jsm/utils/BufferGeometryUtils.js';
@@ -37,11 +38,14 @@ import { UnrealBloomPass } from '/jsm/postprocessing/UnrealBloomPass.js';
   renderer.updateShadowMap.type = THREE.PCFSoftShadowMap;
 
   const renderScene = new RenderPass(scene, camera);
+
+  const mmi = new MouseMeshInteraction(scene, camera);
+
   const bloomPass = new UnrealBloomPass(
     new THREE.Vector2(window.innerWidth, window.innerHeight),
     4,
     12,
-    2
+    0
   );
 
   const bloomComposer = new EffectComposer(renderer);
@@ -74,7 +78,9 @@ import { UnrealBloomPass } from '/jsm/postprocessing/UnrealBloomPass.js';
   });
 
   const moonMesh = new THREE.Mesh(moonGeometry, moonMaterial);
+  moonMesh.name = 'moon';
   scene.add(moonMesh);
+
   const ambiantLight = new THREE.AmbientLightProbe(0xffffff, 0.2);
   scene.add(ambiantLight);
 
@@ -156,6 +162,7 @@ import { UnrealBloomPass } from '/jsm/postprocessing/UnrealBloomPass.js';
       new THREE.SphereBufferGeometry(0.008, 10, 10),
       mat79Sm
     );
+    mesh.name = 'smPoint';
     mesh.position.set(coord.x, coord.y, coord.z);
     group.add(mesh);
     group79Sm.add(mesh);
@@ -165,6 +172,7 @@ import { UnrealBloomPass } from '/jsm/postprocessing/UnrealBloomPass.js';
       new THREE.SphereBufferGeometry(0.008, 10, 10),
       mat83Ai
     );
+    mesh.name = 'aiPoint';
     mesh.position.set(coord.x, coord.y, coord.z);
     group.add(mesh);
     group83Ai.add(mesh);
@@ -175,6 +183,7 @@ import { UnrealBloomPass } from '/jsm/postprocessing/UnrealBloomPass.js';
       new THREE.SphereBufferGeometry(0.008, 10, 10),
       mat05Dm
     );
+    mesh.name = 'dmPoint';
     mesh.position.set(coord.x, coord.y, coord.z);
     group.add(mesh);
     group05Dm.add(mesh);
@@ -189,13 +198,30 @@ import { UnrealBloomPass } from '/jsm/postprocessing/UnrealBloomPass.js';
   moonPivot.add(group83Ai);
   moonPivot.add(group05Dm);
 
-  const mmi = MouseMesh;
-
+  mmi.addHandler('dmPoint', 'mouseenter', (e) => {
+    console.log(e);
+  });
+  mmi.addHandler('smPoint', 'mouseenter', (e) => {
+    console.log(e);
+  });
+  mmi.addHandler('aiPoint', 'mouseenter', (e) => {
+    console.log(e);
+  });
+  mmi.addHandler('dmPoint', 'click', (e) => {
+    console.log(e);
+  });
+  mmi.addHandler('smPoint', 'click', (e) => {
+    console.log(e);
+  });
+  mmi.addHandler('aiPoint', 'click', (e) => {
+    console.log(e);
+  });
   const animate = () => {
     requestAnimationFrame(animate);
     moonMesh.rotation.y -= 0.001;
     galaxyMesh.rotation.y -= 0.0011;
     camera.layers.set(1);
+    mmi.update();
     bloomComposer.render();
     renderer.clearDepth();
     camera.layers.set(0);

@@ -28,6 +28,15 @@ app.use(
     path.join(__dirname, 'node_modules/three/examples/jsm')
   )
 );
+app.use(
+  '/three-mmi/',
+  express.static(
+    path.join(
+      __dirname,
+      'node_modules/@danielblagy/three-mmi/module/'
+    )
+  )
+);
 
 // app.use('/api/data/', (req, res) => {
 //   res.status(200).send({
@@ -37,4 +46,4 @@ app.use(
 //   });
 // });
 
-app.listen(3000, () => console.log('http://localhost:3000'));
+app.listen(80, () => console.log('http://localhost:80'));
